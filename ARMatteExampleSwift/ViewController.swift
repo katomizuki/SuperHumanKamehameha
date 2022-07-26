@@ -15,51 +15,54 @@ extension MTKView: RenderDestinationProvider {
 
 class ViewController: UIViewController, MTKViewDelegate, ARSessionDelegate {
     
-//    var session: ARSession!
-//    var renderer: Renderer!
-    
     var session = ARSession()
     var renderer: Renderer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // MTKViewに変換する。
         if let view = self.view as? MTKView {
+          // MetalKitのデフォメソッドでDeviceを取得する
             view.device = MTLCreateSystemDefaultDevice()
+            // 背景を透明
             view.backgroundColor = UIColor.clear
+            // MTLViewDelegateを委任
             view.delegate = self
-            print("ああああああああああ")
-            renderer = Renderer(session: session, metalDevice: view.device!, mtkView: view)
+            // rendererをインスタンス化
+            renderer = Renderer(session: session,
+                                metalDevice: view.device!,
+                                mtkView: view)
+            // rendererのdrawメソッドを呼び出す
             renderer.drawRectResized(size: view.bounds.size)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // トラッキングを設定
         let configuration = ARWorldTrackingConfiguration()
+        // 人のセグメントを取りたいので.personSegmentationに設定する
         configuration.frameSemantics = .personSegmentation
         session.run(configuration)
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        print("いいいいいいいいああ")
+        // サイズの変更があった場合に再度レンダリングし直し
         renderer.drawRectResized(size: size)
     }
     
     func draw(in view: MTKView) {
-        print("うううううううう")
+        // ビューレンダリングが呼び出されたら発火。
+        // rendererのupdateメソッドを呼び出す。
         renderer.update()
     }
     
-//
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        // Pause the view's session
+        // セッションにパース
         session.pause()
     }
 
-//
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
 

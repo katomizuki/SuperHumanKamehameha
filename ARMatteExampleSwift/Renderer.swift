@@ -2,6 +2,7 @@
 //See LICENSE folder for this sample’s licensing information.
 //
 
+// レンダリングに必要なPassDescriptor、ドローアブル,PiexelFormat、などのプロトコル。
 protocol RenderDestinationProvider {
     var currentRenderPassDescriptor: MTLRenderPassDescriptor? { get }
     var currentDrawable: CAMetalDrawable? { get }
@@ -26,21 +27,30 @@ let kImagePlaneVertexData: [Float] = [
 ]
 
 class Renderer {
+    // ARSession
     let session: ARSession
+    // カメラ映像の人物の距離とマスクを生成するためのもの
     let matteGenerator: ARMatteGenerator
+    // 自身のデバイス
     let device: MTLDevice
+    
     let inFlightSemaphore = DispatchSemaphore(value: kMaxBuffersInFlight)
+    // レンダリングするMTKView
     var mtkView: MTKView
-
+    // コミットを管理するキュー
     var commandQueue: MTLCommandQueue!
+    // モデルデータ(頂点データ)やその他レンダリングに必要なパラメータを記憶しておく領域。
+    // CPUからもGPUからもアクセス可能。
     var imagePlaneVertexBuffer: MTLBuffer!
     // 最終画像合成用PipelineState
     var compositePipelineState: MTLRenderPipelineState!
     // 人体画像の拡大加工用PipelineState
     var computeState: MTLComputePipelineState!
-    // キャプチャ画像テクスチャ
+    // キャプチャ画像テクスチャ　CVMetalTexture->Metalで利用できるテキスチャベースのイメージバッファ
     var capturedImageTextureY: CVMetalTexture?
+    // 色
     var capturedImageTextureCbCr: CVMetalTexture?
+        // CVMetalTextureを作るためのキャッシュクラス。
     var capturedImageTextureCache: CVMetalTextureCache!
     // 人体画像テクスチャ
     var alphaTexture: MTLTexture?       // 人体画像
@@ -48,13 +58,16 @@ class Renderer {
     var yellowBlurTexture: MTLTexture!  // 人体画像を黄色にして拡大・ブラーしたテクスチャ
     // 画面サイズ
     var viewportSize: CGSize = CGSize()
+    // 画像サイズが変わったかどうかのフラグ
     var viewportSizeDidChange: Bool = false
     // 人体画像加工時のコンピュートシェーダーのスレッドグループサイズ
     var threadgroupSize = MTLSizeMake(32, 32, 1)
     // アニメーションカウント
     var time = 0
 
-    init(session: ARSession, metalDevice device: MTLDevice, mtkView: MTKView) {
+    init(session: ARSession,
+         metalDevice device: MTLDevice,
+         mtkView: MTKView) {
         self.session = session
         self.device = device
         self.mtkView = mtkView
@@ -62,6 +75,7 @@ class Renderer {
         loadMetal()
     }
 
+    // サイズを入れて　変更したかどうかをtrueにする
     func drawRectResized(size: CGSize) {
         print("きた！")
         viewportSize = size
