@@ -15,6 +15,7 @@
 		11FD6F5922835A6B00775EAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11FD6F5822835A6B00775EAA /* Assets.xcassets */; };
 		11FD6F5C22835A6B00775EAA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11FD6F5A22835A6B00775EAA /* LaunchScreen.storyboard */; };
 		718E55BA2289C30A00A9B13B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 718E55B92289C30A00A9B13B /* README.md */; };
+		D30182BE2893EF4D0089DB88 /* Energy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30182BD2893EF4D0089DB88 /* Energy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		25DCD09025DBDC7000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		718E55B92289C30A00A9B13B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		75E0906075E0961000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D30182BD2893EF4D0089DB88 /* Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Energy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				11FD6F5022835A6B00775EAA /* ShaderTypes.h */,
 				11FD6F5122835A6B00775EAA /* Renderer.swift */,
 				11FD6F5322835A6B00775EAA /* ViewController.swift */,
+				D30182BD2893EF4D0089DB88 /* Energy.swift */,
 				11FD6F5522835A6B00775EAA /* Main.storyboard */,
 				11FD6F5822835A6B00775EAA /* Assets.xcassets */,
 				11FD6F5A22835A6B00775EAA /* LaunchScreen.storyboard */,
@@ -171,6 +174,7 @@
 			files = (
 				11FD6F4F22835A6B00775EAA /* Shaders.metal in Sources */,
 				11FD6F5222835A6B00775EAA /* Renderer.swift in Sources */,
+				D30182BE2893EF4D0089DB88 /* Energy.swift in Sources */,
 				11FD6F5422835A6B00775EAA /* ViewController.swift in Sources */,
 				11FD6F4D22835A6B00775EAA /* AppDelegate.swift in Sources */,
 			);
